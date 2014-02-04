@@ -1,7 +1,9 @@
+#impot and initualize pygame
 import pygame
 from pygame.locals import *
 pygame. init()
 
+#set up screen 
 size = [400, 400]
 screen = pygame.display.set_mode(size)
 
@@ -9,6 +11,7 @@ pygame. display.set_caption("bat and ball")
 
 pygame. mouse.set_visible(0)
 
+#set up the bat and ball
 bat_surf = pygame.Surface((64,12))
 bat_surf.fill((0,255,0))
 batrect = bat_surf.get_rect()
@@ -21,6 +24,7 @@ speed = [3, 3]
 
 batrect. center = ((size[0]/2), (size[1] - 50))
 
+#set up game over
 font = pygame.font.Font(None, 36)
 text = font.render("Game Over",True, (255,0,0))
 textRect = text.get_rect()
@@ -42,24 +46,26 @@ while done == 0:
     position = pygame.mouse.get_pos()
     batrect.centerx = position[0]
 
+#use speed array to set up movevment from up to down and left to right
     ballrect.left += speed[0]
     ballrect.top += speed[1]
- 
+ #ball bounces up when it hits the bat
     if ballrect.colliderect(batrect):
         speed[1] = -speed[1]
-
+#ball bonces of the sides of the screen
     if ballrect.left < 0 or ballrect.right > size[0]:
         speed[0] = -speed[0]
     if ballrect.top < 0:
         speed[1] = -speed [1]
 
-    
+    #check for ball going of the screen
     if ballrect.top > size[1]:
         screen.blit(text, textRect)
         pygame.display.flip()
         pygame.time.wait(2000)
         ballrect.top=0; ballrect.left=(size[0]/2)
 
+#make the bat and the ball appear
     screen.blit(ball_surf, ballrect)
     screen.blit(bat_surf,batrect)
 
